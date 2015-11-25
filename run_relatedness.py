@@ -72,7 +72,7 @@ def main(unused_args):
   glove_vectors, vocabulary = load_pretrained_glove_vectors(FLAGS.glove_path)
 
   # TODO: read training, test, validation data
-  train_data, test_data, valid_data = load_data(FLAGS.data_path)
+  # train_data, test_data, valid_data = load_data(FLAGS.data_path)
 
   # training config params
   config = get_config()

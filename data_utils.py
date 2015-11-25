@@ -25,6 +25,26 @@ def load_pretrained_glove_vectors(glove_file):
                 vocabulary[word] = index
                 index += 1
             vect = np.array([np.float32(i) for i in items[1:] if len(i) > 1])
-            glove_vectors[word] = vect
+            glove_vectors[wordindex] = vect
 
     return glove_vectors, vocabulary
+
+def convert_to_glove(word, vocab, glove_vectors, vector_size = 300):
+    if word in vocab:
+        return glove_vectors[vocab[word]]
+    else:
+        index = len(vocab) + 1
+        vocab[word] = index
+        zeroes = np.zeros(vector_size)
+        glove_vectors[index] = zeroes
+        return zeroes
+
+def load_sick_data(sick_path, vocab, glove_vectors, vector_size = 300):
+    #TODO: this can probably be a lot more pythonic and efficient
+    l_sentences = []
+    r_sentences = []
+    relatedness = []
+    with open(sick_path) as f:
+        for line in f.readlines():
+            cols = line.split('\t')
+            # l_sentence = 
