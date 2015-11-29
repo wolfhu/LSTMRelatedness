@@ -29,7 +29,14 @@ def load_pretrained_glove_vectors(glove_file):
 
     return glove_vectors, vocabulary
 
-def convert_to_glove(word, vocab, glove_vectors, vector_size = 300):
+def convert_sentence_to_glove_vectors(sentence, vocab, glove_vectors, vector_size=300):
+    # TODO: tokenize better
+    word_vectors = []
+    for word in sentence.split(" "):
+        word_vectors.append(convert_word_to_glove(word, vocab, glove_vectors, vector_size))
+    return np.array(word_vectors)
+
+def convert_word_to_glove(word, vocab, glove_vectors, vector_size = 300):
     if word in vocab:
         return glove_vectors[vocab[word]]
     else:
@@ -47,4 +54,4 @@ def load_sick_data(sick_path, vocab, glove_vectors, vector_size = 300):
     with open(sick_path) as f:
         for line in f.readlines():
             cols = line.split('\t')
-            # l_sentence = 
+            # l_sentence =

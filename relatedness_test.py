@@ -2,6 +2,9 @@ import unittest
 import numpy as np
 
 from data_utils import *
+from relatedness import RelatednessModel
+from model_config import SmallConfig
+import tensorflow as tf
 
 comma_glove_vector = np.array([-0.082752, 0.67204, -0.14987, -0.064983, 0.056491,
     0.40228, 0.0027747, -0.3311, -0.30691, 2.0817, 0.031819, 0.013643, 0.30265,
@@ -40,20 +43,18 @@ comma_glove_vector = np.array([-0.082752, 0.67204, -0.14987, -0.064983, 0.056491
     -0.19343, 0.47849, -0.30113, 0.059389, 0.074901, 0.061068, -0.4662, 0.40054, -0.19099,
     -0.14331,0.018267,-0.18643,0.20709,-0.35598,0.05338,-0.050821,-0.1918, -0.37846, -0.06589])
 
-class TestDataUtils(unittest.TestCase):
-
+class RelatednessModelTest(unittest.TestCase):
   def test_load_glove_vectors(self):
+    # Get a small config
+    config = SmallConfig()
     glove, vocab = load_pretrained_glove_vectors('glove/glove.test.subset.txt')
-    self.assertEqual(vocab[','], 0)
-    np.testing.assert_allclose(glove[0], comma_glove_vector)
-    print("Glove vector size: %s" % len(comma_glove_vector))
+    model = RelatednessModel(False, glove, vocab, config)
+    # right now this just tests that the dang thing just runs
+    sentence = ", , , ,"
+    with tf.Graph().as_default(), tf.Session() as session:
+        model.process_sentence_pair(sentence, sentence, session)
 
-  def test_convert_sentence_to_glove_vectors(self):
-    glove, vocab = load_pretrained_glove_vectors('glove/glove.test.subset.txt')
-    sentence = ", , , , ,"
-    vecs = convert_sentence_to_glove_vectors(sentence, vocab, glove)
-    self.assertEqual(len(vecs), 5)
-    for vec in vecs: np.testing.assert_allclose(vec, comma_glove_vector)
+
 
 if __name__ == '__main__':
     unittest.main()

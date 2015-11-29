@@ -12,6 +12,7 @@ class SmallConfig(object):
   keep_prob = 1.0
   lr_decay = 0.5
   batch_size = 20
+  word_vec_size = 300
   vocab_size = 10000
 
 
@@ -29,6 +30,7 @@ class MediumConfig(object):
   lr_decay = 0.8
   batch_size = 20
   vocab_size = 10000
+  word_vec_size = 300
 
 
 class LargeConfig(object):
@@ -36,6 +38,7 @@ class LargeConfig(object):
   init_scale = 0.04
   learning_rate = 1.0
   max_grad_norm = 10
+  word_vec_size = 300
   num_layers = 2
   num_steps = 35
   hidden_size = 1500
